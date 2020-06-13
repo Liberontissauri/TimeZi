@@ -1,2 +1,2 @@
 # TimeZi
-A schedule command line app written in python
+A calendar command line based app written in python
