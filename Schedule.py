@@ -22,7 +22,7 @@ colours = {"DEFAULT":"\033[0m",
             "yellow":"\033[93m",
             "pink":"\033[95m"}
 
-def addappointment(name,day,hour="allday",colour="DEFAULT"):
+def addappointment(name,day,hour,colour="DEFAULT"):
     jsoncontent = files.readdata(datafilepath)
  
     jsoncontent["saved_schedules"][day][name]={"name":name,"day": day,"hour":hour,"colour":colour}      #changing json's file's dict contents
@@ -53,6 +53,7 @@ def printappointment(name,weekday):
         #Locating Appointment and printing
     if weekday in ["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]:
         print("[{}] [{}]{} {}{}".format(jsoncontent["saved_schedules"][weekday][name]["day"],jsoncontent["saved_schedules"][weekday][name]["hour"],colours[jsoncontent["saved_schedules"][weekday][name]["colour"]],name,colours["DEFAULT"]))
+        
 
 def gethours(weekday):      #Getting an ordered list of hours of a specific day
     jsoncontent = files.readdata(datafilepath)
@@ -64,8 +65,7 @@ def gethours(weekday):      #Getting an ordered list of hours of a specific day
     ordered_hours = []
 
     for appointment in unordered_schedule:
-        if unordered_schedule[appointment]["hour"] != "allday":
-            unordered_hours.append(int(unordered_schedule[appointment]["hour"].replace(":","")))
+        unordered_hours.append(int(unordered_schedule[appointment]["hour"].replace(":","")))
                 #stores the current hour in the ordered hours list as an integer
                 #to be able to order the hours
     
