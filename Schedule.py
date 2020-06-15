@@ -25,13 +25,7 @@ colours = {"DEFAULT":"\033[0m",
 def addappointment(name,day,hour="allday",colour="DEFAULT"):
     jsoncontent = files.readdata(datafilepath)
  
-        #choosing correct place in the json file to store the appointment
-
-    if day not in ["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]:
-        jsoncontent["saved_exceptions"][name]={"name":name,"day": day,"hour":hour,"colour":colour}      #changing json's file's dict contents
-
-    else:
-        jsoncontent["saved_schedules"][day][name]={"name":name,"day": day,"hour":hour,"colour":colour}      #changing json's file's dict contents
+    jsoncontent["saved_schedules"][day][name]={"name":name,"day": day,"hour":hour,"colour":colour}      #changing json's file's dict contents
 
     files.savedata(datafilepath, jsoncontent)       #Saving json file
 
@@ -40,18 +34,14 @@ def delappointment(name):
 
     appointment_location = ""
 
-        #Getting the appointment location
+            #Getting the appointment location
 
-    if name in jsoncontent["saved_exceptions"]:
-        jsoncontent["saved_exceptions"].pop(name)
-        
-    else:
-        for weekday in jsoncontent["saved_schedules"]:
-            for appointment in jsoncontent["saved_schedules"][weekday]:
-                if appointment == name:
-                    appointment_location = weekday      #Storing appointment location
+    for weekday in jsoncontent["saved_schedules"]:
+        for appointment in jsoncontent["saved_schedules"][weekday]:
+            if appointment == name:
+                appointment_location = weekday      #Storing appointment location
 
-        if appointment_location != "":
+        if appointment_location != "":      #Verifying if the appointment actually exists
             jsoncontent["saved_schedules"][appointment_location].pop(name)      #Deleting appointment
 
     files.savedata(datafilepath, jsoncontent)       #Saving Changes
@@ -59,10 +49,8 @@ def delappointment(name):
 
 def printappointment(name,weekday):
     jsoncontent = files.readdata(datafilepath)
-        #Locating Appointment and printing
 
-    if weekday == "exception":
-        print("[{}] [{}]{}  {}{}".format(jsoncontent["saved_exceptions"][name]["day"],jsoncontent["saved_exceptions"][name]["hour"],colours[jsoncontent["saved_exceptions"][name]["colour"]],name,colours["DEFAULT"]))
+        #Locating Appointment and printing
     if weekday in ["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]:
         print("[{}] [{}]{} {}{}".format(jsoncontent["saved_schedules"][weekday][name]["day"],jsoncontent["saved_schedules"][weekday][name]["hour"],colours[jsoncontent["saved_schedules"][weekday][name]["colour"]],name,colours["DEFAULT"]))
 

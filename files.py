@@ -13,15 +13,15 @@ def gendata(datafilepath):      #generates the json data file
         'thursday':{},
         'friday':{},
         'saturday':{},
-        'sunday':{}},
-        'saved_exceptions':{
-        }}
+        'sunday':{}
+        }
+        }
 
     with open("/".join([datafilepath, "TimeZidata.json"]),"w") as data:         #saving the file
         json.dump(content,data)
 
 
-if os.path.isfile(datafilepath) == True:        #Verifying if data file already exists
+if os.path.isfile(datafilepath) == True:      #Verifying if data file already exists
     gendata(datafilepath)
 
 
