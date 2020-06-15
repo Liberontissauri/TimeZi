@@ -2,7 +2,7 @@
     TimeZi is a CLI scheduler app written in python
 
     usage:
-        TimeZi add <name> <weekday> <hour>
+        TimeZi add <name> <weekday> <hour> [--color=<color>]
         TimeZi delete <name>
         TimeZi next
         TimeZi get <weekday>
@@ -22,7 +22,7 @@ def main():
 
     if arg["add"] == True:
         if arg["<hour>"] != False:
-            Schedule.addappointment(arg["<name>"],arg["<weekday>"],arg["<hour>"])
+            Schedule.addappointment(arg["<name>"],arg["<weekday>"],arg["<hour>"],arg["--color"])
         else:
             Schedule.addappointment(arg["<name>"],arg["<weekday>"])
 
@@ -36,7 +36,7 @@ def main():
         Schedule.printday(arg["<weekday>"])
 
     if arg["next"] == True:
-        Schedule.next()
+        Schedule.nextapp()
 
     if arg["reset"] == True:
         files.gendata(datafilepath)

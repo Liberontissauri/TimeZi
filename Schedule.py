@@ -5,16 +5,33 @@ import os
 configfilepath = os.getcwd()      #To be implemented
 datafilepath = os.getcwd()
 
-def addappointment(name,day,hour="allday"):
+colours = {"DEFAULT":"\033[0m",
+            "black":"\033[30m",
+            "red":"\033[31m",
+            "green":"\033[32m",
+            "orange":"\033[33m",
+            "blue":"\033[34m",
+            "purple":"\033[35m",
+            "cyan":"\033[36m",
+            "light_grey":"\033[37m",
+            "dark_grey":"\033[90m",
+            "light_red":"\033[91m",
+            "light_green":"\033[92m",
+            "light_cyan":"\033[96m",
+            "light_blue":"\033[94m",
+            "yellow":"\033[93m",
+            "pink":"\033[95m"}
+
+def addappointment(name,day,hour="allday",colour="DEFAULT"):
     jsoncontent = files.readdata(datafilepath)
  
         #choosing correct place in the json file to store the appointment
 
     if day not in ["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]:
-        jsoncontent["saved_exceptions"][name]={"name":name,"day": day,"hour":hour}      #changing json's file's dict contents
+        jsoncontent["saved_exceptions"][name]={"name":name,"day": day,"hour":hour,"colour":colour}      #changing json's file's dict contents
 
     else:
-        jsoncontent["saved_schedules"][day][name]={"name":name,"day": day,"hour":hour}      #changing json's file's dict contents
+        jsoncontent["saved_schedules"][day][name]={"name":name,"day": day,"hour":hour,"colour":colour}      #changing json's file's dict contents
 
     files.savedata(datafilepath, jsoncontent)       #Saving json file
 
@@ -42,13 +59,12 @@ def delappointment(name):
 
 def printappointment(name,weekday):
     jsoncontent = files.readdata(datafilepath)
-
         #Locating Appointment and printing
 
     if weekday == "exception":
-        print("[{}] [{}]  {}".format(jsoncontent["saved_exceptions"][name]["day"],jsoncontent["saved_exceptions"][name]["hour"],name))
+        print("[{}] [{}]{}  {}{}".format(jsoncontent["saved_exceptions"][name]["day"],jsoncontent["saved_exceptions"][name]["hour"],colours[jsoncontent["saved_exceptions"][name]["colour"]],name,colours["DEFAULT"]))
     if weekday in ["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]:
-        print("[{}] [{}]  {}".format(jsoncontent["saved_schedules"][weekday][name]["day"],jsoncontent["saved_schedules"][weekday][name]["hour"],name))
+        print("[{}] [{}]{} {}{}".format(jsoncontent["saved_schedules"][weekday][name]["day"],jsoncontent["saved_schedules"][weekday][name]["hour"],colours[jsoncontent["saved_schedules"][weekday][name]["colour"]],name,colours["DEFAULT"]))
 
 def gethours(weekday):      #Getting an ordered list of hours of a specific day
     jsoncontent = files.readdata(datafilepath)
@@ -88,7 +104,7 @@ def printtoday():
     weekday = time.strftime("%A",time.gmtime()).lower()
     printday(weekday)
 
-def next():
+def nextapp():
     jsoncontent = files.readdata(datafilepath)
     currenthour = int(str(time.strftime("%H",time.localtime())) + str(time.strftime("%M",time.localtime())))
     nexthour = ""

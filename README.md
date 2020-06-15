@@ -20,7 +20,7 @@ A calendar command line based app written in python.
 ## How to use?
 
 - Add an appointment:
-> TimeZi  add  \<name>  \<weekday>  \<hour>
+> TimeZi  add  \<name>  \<weekday>  \<hour> \--color
 
 - Delete an appointment:
 > TimeZi  delete  \<name>

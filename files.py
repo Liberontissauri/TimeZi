@@ -30,8 +30,7 @@ def readdata(datafilepath):
         data = json.load(f)
 
     return data
-        
+
 def savedata(datafilepath,jsonfile):
     with open("/".join([datafilepath, "TimeZidata.json"]),"w") as data:     #saving the data file
         json.dump(jsonfile,data)
-
