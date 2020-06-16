@@ -21,7 +21,7 @@ def gendata(datafilepath):      #generates the json data file
         json.dump(content,data)
 
 
-if os.path.isfile(datafilepath) == True:      #Verifying if data file already exists
+if os.path.isfile("/".join([datafilepath, "TimeZidata.json"])) == False:      #Verifying if data file already exists
     gendata(datafilepath)
 
 

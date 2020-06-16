@@ -21,10 +21,7 @@ def main():
     arg = docopt(__doc__, version='0.1')
 
     if arg["add"] == True:
-        if arg["<hour>"] != False:
-            Schedule.addappointment(arg["<name>"],arg["<weekday>"],arg["<hour>"],arg["--color"])
-        else:
-            Schedule.addappointment(arg["<name>"],arg["<weekday>"])
+        Schedule.addappointment(arg["<name>"],arg["<weekday>"],arg["<hour>"],arg["--color"])
 
     if arg["today"] == True:
         Schedule.printtoday()

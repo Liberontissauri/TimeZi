@@ -24,9 +24,17 @@ colours = {"DEFAULT":"\033[0m",
 
 def addappointment(name,day,hour,colour="DEFAULT"):
     jsoncontent = files.readdata(datafilepath)
- 
-    jsoncontent["saved_schedules"][day][name]={"name":name,"day": day,"hour":hour,"colour":colour}      #changing json's file's dict contents
-
+    if colour not in colours:
+        print("\033[91m[ERROR] Non supported color;\033[0m")
+        print("\033[91m[ERROR] ",end="[")
+        for colour in  colours:
+            print(colour, end=" ")
+        print("]\033[0m")
+    if day in ["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]:
+        jsoncontent["saved_schedules"][day][name]={"name":name,"day": day,"hour":hour,"colour":colour}      #changing json's file's dict contents
+    else:
+        print("\033[91m[ERROR] The day must be a week day;\033[0m")
+        print("\033[91m[ERROR] [\"monday\",\"tuesday\",\"wednesday\",\"thursday\",\"friday\",\"saturday\",\"sunday\"];\033[0m")
     files.savedata(datafilepath, jsoncontent)       #Saving json file
 
 def delappointment(name):
@@ -43,18 +51,20 @@ def delappointment(name):
 
         if appointment_location != "":      #Verifying if the appointment actually exists
             jsoncontent["saved_schedules"][appointment_location].pop(name)      #Deleting appointment
+            print("[{}] deleted".format(name))
+
+    if appointment_location == "":
+        print("\033[91m[ERROR] Appointment does not exist;\033[0m")
 
     files.savedata(datafilepath, jsoncontent)       #Saving Changes
-    print("[{}] deleted".format(name))
+    
 
 def printappointment(name,weekday):
     jsoncontent = files.readdata(datafilepath)
 
-        #Locating Appointment and printing
-    if weekday in ["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]:
-        print("[{}] [{}]{} {}{}".format(jsoncontent["saved_schedules"][weekday][name]["day"],jsoncontent["saved_schedules"][weekday][name]["hour"],colours[jsoncontent["saved_schedules"][weekday][name]["colour"]],name,colours["DEFAULT"]))
+    #Locating Appointment and printing
+    print("[{}] [{}]{} {}{}".format(jsoncontent["saved_schedules"][weekday][name]["day"],jsoncontent["saved_schedules"][weekday][name]["hour"],colours[jsoncontent["saved_schedules"][weekday][name]["colour"]],name,colours["DEFAULT"]))
         
-
 def gethours(weekday):      #Getting an ordered list of hours of a specific day
     jsoncontent = files.readdata(datafilepath)
     
